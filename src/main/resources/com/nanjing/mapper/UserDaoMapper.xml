@@ -1,0 +1,37 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nanjing.dao.UserDao">
+
+    <insert id="save" parameterType="com.nanjing.entity.User">
+        insert into t_user values(#{id},#{name},#{age},#{salary},#{phoneCode})
+    </insert>
+
+    <update id="update" parameterType="com.nanjing.entity.User">
+        update t_user set name=#{name},age=#{age},salary=#{salary},phoneCode=#{phoneCode}
+    </update>
+
+    <delete id="delete" parameterType="string">
+        delete from t_user where id = #{id}
+    </delete>
+
+    <select id="findAll" resultType="com.nanjing.entity.User">
+        select id,name,age,salary,phoneCode from t_user
+    </select>
+
+    <select id="findOne" resultType="com.nanjing.entity.User" parameterType="string">
+        select id,name,age,salary,phoneCode from t_user where id = #{id}
+    </select>
+
+<!--    初临模糊查询-->
+    <select id="findLike" resultType="com.nanjing.entity.User">
+        select id,name,age,salary,phoneCode from t_user
+        <where>
+         <if test="name!=null">
+             name like concat(#{name},"%")
+         </if>
+         <if test="phoneCode!=null">
+             or phoneCode like concat("%",#{phoneCode},"%")
+         </if>
+        </where>
+    </select>
+
+</mapper>
